@@ -41,6 +41,8 @@ export default function App({ Component, pageProps }: AppProps) {
 
           const mina = (window as any).mina;
 
+          console.log(mina);
+
           if (mina == null) {
             setState({ ...state, hasWallet: false });
             return;

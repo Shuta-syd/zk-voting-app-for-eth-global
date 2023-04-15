@@ -4,7 +4,7 @@ type Transaction = Awaited<ReturnType<typeof Mina.transaction>>;
 
 // ---------------------------------------------------------------------------------------
 
-import type { Vote } from '../../..//contracts/src/Vote.js';
+import type { Vote } from '../../../contracts/build/src/Vote.js';
 
 const state = {
   Vote: null as null | typeof Vote,
@@ -25,7 +25,7 @@ const functions = {
     Mina.setActiveInstance(Berkeley);
   },
   loadContract: async (args: {}) => {
-    const { Vote } = await import('../../../contracts/src/Vote.js');
+    const { Vote } = await import('../../../contracts/build/src/Vote.js');
     state.Vote = Vote;
   },
   compileContract: async (args: {}) => {
