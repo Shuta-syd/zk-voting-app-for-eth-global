@@ -29,7 +29,7 @@ const CreateVote = () => {
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		const vote = { title, contents, closingTime };
-		// dispatch(addVote(vote));
+		dispatch(addVote(vote));
 		setTitle("");
 		setContents([]);
 		setClosingTime("");
