@@ -20,10 +20,12 @@ const votesSlice = createSlice({
   name: 'votes',
   initialState,
   reducers: {
-    addVote: (state, action: PayloadAction<Vote>) => {
+    addVote: (state, action: PayloadAction<Omit<Vote, 'count'>>) => {
       const vote = action.payload;
-      vote.count = new Array(vote.contents.length).fill(0);
-      state.votes.push(vote);
+      const contentsLength = vote.contents.length;
+      const count = new Array(contentsLength).fill(0);
+      const voteWithCount = {...vote, count};
+      state.votes.push(voteWithCount);
     },
     voteContent: (state, action: PayloadAction<{ voteIndex: number, contentIndex: number }>) => {
       const { voteIndex, contentIndex } = action.payload;
