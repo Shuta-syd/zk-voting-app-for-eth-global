@@ -1,3 +1,11 @@
+:root {
+  --primary: #1a2980;
+  --secondary: #26d0ce;
+  --max-width: 1200px;
+  --border-radius: 0.5rem;
+  --font-mono: 'Fira Mono', monospace;
+}
+
 /* :root {
   --max-width: 1100px;
   --border-radius: 12px;

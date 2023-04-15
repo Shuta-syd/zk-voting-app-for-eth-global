@@ -21,6 +21,46 @@ declare global {
   }
 }
 
+// export default function Home() {
+//   const [web3, setWeb3] = useState<Web3>();
+// 
+//   useEffect(() => {
+//     async function connectWallet() {
+//       if (typeof window !== 'undefined' && typeof window.auro !== 'undefined') {
+//         const provider = await window.auro.enable();
+//         const web3Instance = new Web3(provider);
+//         setWeb3(web3Instance);
+//       } else {
+//         console.error('Auro Wallet provider not found');
+//       }
+//     }
+//     connectWallet();
+//   }, []);
+// 
+//   return (
+//     <div className={styles.background}>
+//       <Head>
+//         <h2 className={styles.head}>Mina Protocol Voting App</h2>
+//         <meta name="description" content="A decentralized voting app built on the Mina protocol." />
+//       </Head>
+//       <ChakraProvider>
+//         <div className={styles.container}>
+//           <Link href="/createvote">
+//             <Button colorScheme="teal" className={styles.create}>投票作成</Button>
+//           </Link>
+//           <Link href="/voting">
+//             <Button colorScheme="teal">投票</Button>
+//           </Link>
+//         </div>
+//       </ChakraProvider>
+//     </div>
+//   );
+// };
+
+
+
+// Other code remains the same
+
 export default function Home() {
   const [web3, setWeb3] = useState<Web3>();
 
@@ -37,26 +77,31 @@ export default function Home() {
     connectWallet();
   }, []);
 
+
   return (
-    <div className={styles.background}>
+    <div className={styles.main}>
       <Head>
-        <h2 className={styles.head}>Mina Protocol Voting App</h2>
+        <title>Mina Protocol Voting App</title>
         <meta name="description" content="A decentralized voting app built on the Mina protocol." />
       </Head>
       <ChakraProvider>
         <div className={styles.container}>
-          <Link href="/createvote">
-            <Button colorScheme="teal" className={styles.create}>投票作成</Button>
-          </Link>
-          <Link href="/voting">
-            <Button colorScheme="teal">投票</Button>
-          </Link>
+          <div className={styles.description}>
+            <h2 className={styles.head}>Mina Protocol Voting App</h2>
+          </div>
+          <div className={styles.create}>
+            <Link href="/createvote">
+              <Button colorScheme="teal">投票作成</Button>
+            </Link>
+            <Link href="/voting">
+              <Button colorScheme="teal">投票</Button>
+            </Link>
+          </div>
         </div>
       </ChakraProvider>
     </div>
   );
 };
-
 
 
 
