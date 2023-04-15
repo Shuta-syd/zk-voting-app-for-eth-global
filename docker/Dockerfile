@@ -20,6 +20,6 @@ RUN npm install --save-dev typescript --prefix /app/contracts
 
 EXPOSE 3000
 
-# CMD ["tail", "-f", "/dev/null"]
+CMD ["tail", "-f", "/dev/null"]
 # CMD ["npm", "run", "build"]
 
