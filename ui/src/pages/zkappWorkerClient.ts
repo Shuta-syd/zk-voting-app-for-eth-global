@@ -36,8 +36,8 @@ export default class ZkappWorkerClient {
     return this._call('initZkappInstance', { publicKey58: publicKey.toBase58() });
   }
 
-  async Vote(): Promise<Field> {
-    const result = await this._call('vote', {});
+  async Vote(num: number): Promise<Field> {
+    const result = await this._call('vote', {num});
     return Field.fromJSON(JSON.parse(result as string));
   }
 
