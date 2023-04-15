@@ -31,7 +31,7 @@ async function main() {
   console.log('[0] state after init No:', num_no_0.toString());
 
   const txn1 = await Mina.transaction(senderAccount, () => {
-    zkAppInstance.vote(Field(1), zkAppInstance.number_of_yes.get(), zkAppInstance.number_of_no.get());
+    zkAppInstance.vote(Field(1));
   });
   await txn1.prove();
   await txn1.sign([senderKey]).send();
@@ -42,7 +42,7 @@ async function main() {
   console.log('[1] state after init No:', num_no_1.toString());
 
   const txn2 = await Mina.transaction(senderAccount, () => {
-    zkAppInstance.vote(Field(0), zkAppInstance.number_of_yes.get(), zkAppInstance.number_of_no.get());
+    zkAppInstance.vote(Field(0));
   });
   await txn2.prove();
   await txn2.sign([senderKey]).send();

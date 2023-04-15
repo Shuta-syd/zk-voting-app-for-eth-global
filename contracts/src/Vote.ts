@@ -44,24 +44,29 @@ export class Vote extends SmartContract {
 
   @method vote(
     choice: Field,
-    older_number_of_yes: Field,
-    older_number_of_no: Field,
+    // nullifier: MerkleWitnessClass,
   ) {
 
-    this.number_of_yes.assertEquals(older_number_of_yes);
-    this.number_of_no.assertEquals(older_number_of_no);
+    const on_number_of_yes = this.number_of_yes.get();
+    const on_number_of_no = this.number_of_no.get();
+    this.number_of_yes.assertEquals(this.number_of_yes.get());
+    this.number_of_no.assertEquals(on_number_of_no);
+    this.nullifier_root.assertEquals(this.nullifier_root.get());
 
-    this.number_of_yes.set(older_number_of_yes.add(choice.equals(Field(STATUS.YES)).toField()));
-    this.number_of_no.set(older_number_of_no.add(choice.equals(Field(STATUS.NO)).toField()));
 
-    this.number_of_yes.set(older_number_of_yes.add(choice.equals(Field(STATUS.YES)).toField()));
-    this.number_of_no.set(older_number_of_no.add(choice.equals(Field(STATUS.NO)).toField()));
+    this.number_of_yes.set(on_number_of_yes.add(choice.equals(Field(STATUS.YES)).toField()));
+    this.number_of_no.set(on_number_of_no.add(choice.equals(Field(STATUS.NO)).toField()));
+
+    this.number_of_yes.set(on_number_of_yes.add(choice.equals(Field(STATUS.YES)).toField()));
+    this.number_of_no.set(on_number_of_no.add(choice.equals(Field(STATUS.NO)).toField()));
   }
 
   @method setNullifier(proposal_id: Field, voter: Voter, nullifier: MerkleWitnessClass) {
+
     this.nullifier_root.assertEquals(this.nullifier_root.get());
 
     nullifier.calculateRoot(voter.hash()).assertEquals(this.nullifier_root.get());
+
 
     let newVoter = voter.vote();
     let new_nullifer_root = nullifier.calculateRoot(newVoter.hash());
