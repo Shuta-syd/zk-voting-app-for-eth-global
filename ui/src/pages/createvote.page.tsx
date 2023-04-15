@@ -1,9 +1,7 @@
 import { Button, ChakraProvider, Input, Link } from "@chakra-ui/react";
-import { statSync } from "fs";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addVote } from "../redux/store";
-import styles from '../styles/Home.module.css';
 
 const CreateVote = () => {
 	const [title, setTitle] = useState("");
@@ -30,7 +28,7 @@ const CreateVote = () => {
 
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
-		const vote = { title, contents, closingTime};
+		const vote = { title, contents, closingTime };
 		dispatch(addVote(vote));
 		setTitle("");
 		setContents([]);
@@ -55,27 +53,25 @@ const CreateVote = () => {
 			<div>
 				<h1>投票作成</h1>
 				<form onSubmit={handleSubmit}>
-					<div className={styles.voteTitle}>
-						<label className={styles.voteTitleLabel}>投票タイトル</label>
+					<div>
+						<label htmlFor="voteTitle">投票タイトル</label>
 						<Input
 							type="text"
 							id="voteTitle"
 							value={title}
 							onChange={handleTitleChange}
 							required
-							width={200}
 						/>
 					</div>
 					{contents.map((content, index) => (
-						<div key={index} className={styles.voteContent}>
-							<label htmlFor={`voteContent${index}`} className={styles.voteContentLabel}>投票内容</label>
+						<div key={index}>
+							<label htmlFor={`voteContent${index}`}>投票内容</label>
 							<Input
 								type="text"
 								id={`voteContent${index}`}
 								value={content}
 								onChange={(event) => handleContentChange(event, index)}
 								required
-								width={200}
 							/>
 							<Button onClick={() => handleContentDelete(index)}>削除</Button>
 						</div>
@@ -83,7 +79,7 @@ const CreateVote = () => {
 					<Button type="button" onClick={addContent}>
 						追加
 					</Button>
-					<div className={styles.closingTime}>
+					<div>
 						<label htmlFor="closingTime">締め切り時間</label>
 						<Input
 							type="datetime-local"
@@ -91,10 +87,9 @@ const CreateVote = () => {
 							value={closingTime}
 							onChange={handleClosingTimeChange}
 							required
-							width={200}
 						/>
 					</div>
-					<Button className={styles.Submit}>投票作成</Button>
+					<Button type="submit">投票作成</Button>
 					<Link href="/">
 						<Button>戻る</Button>
 					</Link>
@@ -105,6 +100,7 @@ const CreateVote = () => {
 };
 
 export default CreateVote;
+
 
 
 
