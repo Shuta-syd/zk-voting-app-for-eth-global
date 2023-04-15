@@ -5,6 +5,7 @@ services:
     container_name: zk-voting-app
     image: zk-voting-app
     volumes:
-      - ./contracts:/app
+      - ./contracts:/app/contracts
+      - ./ui:/app/ui
     ports:
       - 3000:3000
