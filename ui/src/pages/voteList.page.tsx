@@ -62,7 +62,7 @@ const VoteList = () => {
                     mr="2"
                     mb="2"
                     onClick={() => handleVote(voteIndex, contentIndex)}
-					isDisabled={disabled}
+                    isDisabled={Boolean(disabled)}
                   >
                     {buttonText}
                     {vote.closingTime && hasExpired(vote.closingTime) ? "（締切）" : ""}
@@ -88,5 +88,3 @@ const VoteList = () => {
 };
 
 export default VoteList;
-
-
