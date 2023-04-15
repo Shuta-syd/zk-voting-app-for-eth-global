@@ -12,16 +12,25 @@
     "deploy": "next build && next export && touch out/.nojekyll  && git add -f out && git commit -m \"Deploy gh-pages\" && cd .. && git subtree push --prefix ui/out origin gh-pages"
   },
   "dependencies": {
+    "@chakra-ui/react": "^2.5.5",
+    "@emotion/react": "^11.10.6",
+    "@emotion/styled": "^11.10.6",
+    "@reduxjs/toolkit": "^1.9.3",
     "@types/node": "18.15.11",
     "@types/react": "18.0.35",
     "@types/react-dom": "18.0.11",
     "coi-serviceworker": "^0.1.6",
     "eslint": "8.38.0",
     "eslint-config-next": "13.3.0",
+    "framer-motion": "^10.12.2",
     "next": "13.3.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "typescript": "5.0.4",
+    "react-redux": "^8.0.5",
+    "redux": "^4.2.1",
     "snarkyjs": "0.*"
+  },
+  "devDependencies": {
+    "typescript": "5.0.4"
   }
 }
