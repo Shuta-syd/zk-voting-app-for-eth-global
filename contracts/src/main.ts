@@ -1,80 +1,58 @@
-import { VoteSystem } from './VoteSystem.js';
-import {
-  isReady,
-  shutdown,
-  Field,
-  Mina,
-  PrivateKey,
-  AccountUpdate,
-} from 'snarkyjs';
+import { AccountUpdate, Field, Mina, PrivateKey, isReady, shutdown } from "snarkyjs";
+import { Vote } from "./Vote.js";
 
-await isReady;
+async function main() {
+  await isReady;
 
-console.log('SnarkyJS loaded');
+  console.log('Snarkjs loaded')
 
-const useProof = false;
+  const useProof = false;
+  const Local = Mina.LocalBlockchain({ proofsEnabled: useProof });
+  Mina.setActiveInstance(Local);
+  const { privateKey: deployerKey, publicKey: deployerAccount } = Local.testAccounts[0];
+  const { privateKey: senderKey, publicKey: senderAccount } = Local.testAccounts[1];
 
-const Local = Mina.LocalBlockchain({ proofsEnabled: useProof });
-Mina.setActiveInstance(Local);
-const { privateKey: deployerKey, publicKey: deployerAccount } = Local.testAccounts[0];
-const { privateKey: senderKey, publicKey: senderAccount } = Local.testAccounts[1];
+  // Create a public/private key pair. The public key is our address and where we will deploy to
+  const zkAppPrivateKey = PrivateKey.random();
+  const zkAppAddress = zkAppPrivateKey.toPublicKey();
 
-// ----------------------------------------------------
+  // create an instance of Square - and deploy it to zkAppAddress
+  const zkAppInstance = new Vote(zkAppAddress);
+  const deployTxn = await Mina.transaction(deployerAccount, () => {
+    AccountUpdate.fundNewAccount(deployerAccount);
+    zkAppInstance.deploy();
+  });
+  await deployTxn.sign([deployerKey, zkAppPrivateKey]).send();
 
-// Create a public/private key pair. The public key is our address and where we will deploy to
-const zkAppPrivateKey = PrivateKey.random();
-const zkAppAddress = zkAppPrivateKey.toPublicKey();
+  // get the initial state of Square after deployment
+  const num_yes_0 = zkAppInstance.number_of_yes.get();
+  const num_no_0 = zkAppInstance.number_of_no.get();
+  console.log('[0] state after init Yes:', num_yes_0.toString());
+  console.log('[0] state after init No:', num_no_0.toString());
 
-// create an instance of VoteSystem - and deploy it to zkAppAddress
-const zkAppInstance = new VoteSystem(zkAppAddress);
-const deployTxn = await Mina.transaction(deployerAccount, () => {
-  AccountUpdate.fundNewAccount(deployerAccount);
-  zkAppInstance.deploy();
-});
-await deployTxn.sign([deployerKey, zkAppPrivateKey]).send();
+  const txn1 = await Mina.transaction(senderAccount, () => {
+    zkAppInstance.vote(Field(1), zkAppInstance.number_of_yes.get(), zkAppInstance.number_of_no.get());
+  });
+  await txn1.prove();
+  await txn1.sign([senderKey]).send();
 
-// get the initial state of VoteSystem after deployment
-const num0 = zkAppInstance.no.get();
-console.log('state after init:', num0.toString());
+  const num_yes_1 = zkAppInstance.number_of_yes.get();
+  const num_no_1 = zkAppInstance.number_of_no.get();
+  console.log('[1] state after init Yes:', num_yes_1.toString());
+  console.log('[1] state after init No:', num_no_1.toString());
 
-// ----------------------------------------------------
-
-const txn1 = await Mina.transaction(senderAccount, () => {
-  zkAppInstance.vote(Field(0));
-});
-await txn1.prove();
-await txn1.sign([senderKey]).send();
-
-const num1 = zkAppInstance.no.get();
-console.log('state after txn1:', num1.toString());
-
-// ----------------------------------------------------
-
-try {
   const txn2 = await Mina.transaction(senderAccount, () => {
-    zkAppInstance.vote(Field(0));
+    zkAppInstance.vote(Field(0), zkAppInstance.number_of_yes.get(), zkAppInstance.number_of_no.get());
   });
   await txn2.prove();
   await txn2.sign([senderKey]).send();
-} catch (ex: any) {
-  console.log(ex.message);
+
+  const num_yes_2 = zkAppInstance.number_of_yes.get();
+  const num_no_2 = zkAppInstance.number_of_no.get();
+  console.log('[2] state after init Yes:', num_yes_2.toString());
+  console.log('[2] state after init No:', num_no_2.toString());
+
+  await shutdown();
 }
-const num2 = zkAppInstance.no.get();
-console.log('state after txn2:', num2.toString());
 
-// ----------------------------------------------------
-
-const txn3 = await Mina.transaction(senderAccount, () => {
-  zkAppInstance.vote(Field(0));
-});
-await txn3.prove();
-await txn3.sign([senderKey]).send();
-
-const num3 = zkAppInstance.no.get();
-console.log('state after txn3:', num3.toString());
-
-// ----------------------------------------------------
-
-console.log('Shutting down');
-
-await shutdown();
+main();

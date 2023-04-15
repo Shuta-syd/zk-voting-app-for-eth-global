@@ -1,3 +1,3 @@
-import { VoteSystem } from './VoteSystem.js';
+import { Vote } from './Vote.js';
 
-export { VoteSystem };
+export { Vote };
