@@ -1,11 +1,10 @@
 version: '3'
 services:
   app:
+    build: ./docker
     container_name: zk-voting-app
-    build:
-      context: ./
-      dockerfile: Dockerfile
+    image: zk-voting-app
     volumes:
-      - ./:/app
+      - ./contracts:/app
     ports:
       - 3000:3000
