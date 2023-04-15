@@ -44,8 +44,8 @@ async function main() {
   const txn2 = await Mina.transaction(senderAccount, () => {
     zkAppInstance.vote(Field(0), zkAppInstance.number_of_yes.get(), zkAppInstance.number_of_no.get());
   });
-  await txn1.prove();
-  await txn1.sign([senderKey]).send();
+  await txn2.prove();
+  await txn2.sign([senderKey]).send();
 
   const num_yes_2 = zkAppInstance.number_of_yes.get();
   const num_no_2 = zkAppInstance.number_of_no.get();
