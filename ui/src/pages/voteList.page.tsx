@@ -1,12 +1,16 @@
 import { Box, Button, ChakraProvider, Text } from "@chakra-ui/react";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState, addVote, voteContent } from "../redux/store";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Link from "next/link";
+import { OnSendTransactionContext } from "./index.page";
+
 
 const VoteList = () => {
+  const onSendTransaction = useContext(OnSendTransactionContext);
   const votes = useSelector((state: RootState) => state.votes);
   const dispatch = useDispatch();
+  const [state, setState] = useState();
   const [voteDisplayStates, setVoteDisplayStates] = useState(
     Array(votes.length).fill(false)
   );
@@ -28,6 +32,8 @@ const VoteList = () => {
       // 締切時間を過ぎているため、投票できません
       return;
     }
+    
+    onSendTransaction(contentIndex);
     dispatch(voteContent({ voteIndex, contentIndex }));
   };
 

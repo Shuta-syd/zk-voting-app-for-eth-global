@@ -7,11 +7,10 @@ const Voting = () => {
 		<div>
 			<h1>投票ページ</h1>
 			<Card>
-				<VoteList/>
+      <VoteList />
 			</Card>
 		</div>
 	);
 };
 
 export default Voting;
-
