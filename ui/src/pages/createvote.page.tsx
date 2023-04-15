@@ -42,10 +42,13 @@ const handleSubmit = (event : any) => {
 		<Button mt={4} colorScheme="teal" onClick={addInput}>
         追加
 		</Button>
-		<Link href="/">
         <Button mt={4} ml={4} colorScheme="teal" onClick={handleSubmit}>
 			投票作成
         </Button>
+		<Link href="/">
+			<Button mt={4} ml={4} colorScheme="teal">
+				戻る
+			</Button>
 		</Link>
 		</>
 	);

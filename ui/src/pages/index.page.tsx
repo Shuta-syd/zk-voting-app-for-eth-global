@@ -22,9 +22,6 @@ import Link from 'next/link';
 export default function Home() {
   return(
     <>
-      {/* <Link href="/CreateVote">
-        <Button>作成</Button>
-      </Link> */}
       <Link href="/createvote">
         <Button colorScheme="teal">投票作成</Button>
       </Link>
