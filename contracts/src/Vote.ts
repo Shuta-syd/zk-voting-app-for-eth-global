@@ -1,43 +1,52 @@
 import {
-  Bool,
   Field,
-  Poseidon,
+  method,
+  Permissions,
   PublicKey,
-  Struct,
+  SmartContract,
+  state,
+  State,
+  Circuit,
 } from 'snarkyjs';
 
-export class Voter extends Struct({
-  key: PublicKey,
-  nullifier: Field,
-  isVoted: Bool,
-}) {
-  constructor(key: PublicKey, nullifier: Field, isVoted: Bool) {
-    super({ key, nullifier, isVoted });
-    this.nullifier = nullifier;
-    this.key = key;
-    this.isVoted = isVoted;
+const STATUS = {
+  YES: 1,
+  NO: 0,
+};
+
+export class Vote extends SmartContract {
+  @state(Field) number_of_yes = State<Field>(); // Yesの投票数
+  @state(Field) number_of_no = State<Field>(); // Noの投票数
+
+  // eslint-disable-next-line snarkyjs/no-constructor-in-smart-contract
+  constructor(zkAppAddress: PublicKey) {
+    super(zkAppAddress);
   }
 
-  /**
-   * @description Hashes the voter's key, nullifier and isVoted
-   */
-  hash(): Field {
-    return Poseidon.hash(this.key.toFields().concat(this.nullifier.toFields()).concat(this.isVoted.toFields()));
+  deploy() {
+    super.deploy();
+    this.account.permissions.set({
+      ...Permissions.default(),
+      editState: Permissions.proofOrSignature(),
+    });
+
+    this.number_of_yes.set(Field(0));
+    this.number_of_no.set(Field(0));
   }
 
-  /**
-   * @description nullifierに新たな投票者情報をセットする
-   */
-  setNullifier(
-    nullifier: Field
-  ): Voter {
-    return new Voter(this.key, nullifier, this.isVoted);
-  }
+  @method vote(
+    choice: Field,
+    older_number_of_yes: Field,
+    older_number_of_no: Field,
+  ) {
 
-  /**
-   * @description 新たな投票者情報を作成する
-   */
-  vote(): Voter {
-    return new Voter(this.key, this.nullifier, Bool(true));
+    this.number_of_yes.assertEquals(older_number_of_yes);
+    this.number_of_no.assertEquals(older_number_of_no);
+
+    this.number_of_yes.set(older_number_of_yes.add(choice.equals(Field(STATUS.YES)).toField()));
+    this.number_of_no.set(older_number_of_no.add(choice.equals(Field(STATUS.NO)).toField()));
+
+    this.number_of_yes.set(older_number_of_yes.add(choice.equals(Field(STATUS.YES)).toField()));
+    this.number_of_no.set(older_number_of_no.add(choice.equals(Field(STATUS.NO)).toField()));
   }
 }
