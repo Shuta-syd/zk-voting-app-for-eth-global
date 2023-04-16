@@ -1,3 +1,28 @@
+:root {
+  --primary: #1a2980;
+  --secondary: #26d0ce;
+  --max-width: 1200px;
+  --border-radius: 0.5rem;
+  --font-mono: 'Fira Mono', monospace;
+}
+
+/* Typography */
+--font-heading: 'Poppins', sans-serif;
+--font-body: 'Roboto', sans-serif;
+
+/* Colors */
+--background-color: #f7f7f7;
+--text-color: #333;
+--button-color: #1a2980;
+--button-hover-color: #26d0ce;
+--button-text-color: #fff;
+
+/* Spacing */
+--spacing-small: 0.5rem;
+--spacing-medium: 1rem;
+--spacing-large: 2rem;
+
+
 /* :root {
   --max-width: 1100px;
   --border-radius: 12px;

@@ -2,6 +2,7 @@ import { Box, Button, ChakraProvider, Text } from "@chakra-ui/react";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState, addVote, voteContent } from "../redux/store";
 import { useContext, useState } from "react";
+import styles from '../styles/Home.module.css';
 import Link from "next/link";
 import { OnSendTransactionContext } from "./index.page";
 
@@ -32,7 +33,7 @@ const VoteList = () => {
       // 締切時間を過ぎているため、投票できません
       return;
     }
-    
+
     onSendTransaction(contentIndex);
     dispatch(voteContent({ voteIndex, contentIndex }));
   };
@@ -48,7 +49,8 @@ const VoteList = () => {
   console.log(votes);
   return (
     <ChakraProvider>
-      <h1>投票一覧</h1>
+      <div className={styles.multi}>
+      <h1>Vote</h1>
       {votes.map((vote, voteIndex) => (
         <Box key={voteIndex} borderWidth="1px" borderRadius="lg" overflow="hidden" p="4">
           <Box fontWeight="bold" fontSize="xl" mb="2">
@@ -71,7 +73,7 @@ const VoteList = () => {
                     isDisabled={Boolean(disabled)}
                   >
                     {buttonText}
-                    {vote.closingTime && hasExpired(vote.closingTime) ? "（締切）" : ""}
+                    {vote.closingTime && hasExpired(vote.closingTime) ? " (Deadline) " : ""}
                   </Button>
                 );
               })}
@@ -83,12 +85,12 @@ const VoteList = () => {
               setVoteDisplayStates(newVoteDisplayStates);
             }}
           >
-            {voteDisplayStates[voteIndex] ? "結果を隠す" : "結果を見る"}
+            {voteDisplayStates[voteIndex] ? "Hide" : "Show"}
           </Button>
-          <Button onClick={() => handleDelete(voteIndex)}>削除する</Button>
+          <Button onClick={() => handleDelete(voteIndex)}>Delete</Button>
         </Box>
       ))}
-	  <Link href="/">戻る</Link>
+	  <Link href="/">Back</Link></div>
     </ChakraProvider>
   );
 };

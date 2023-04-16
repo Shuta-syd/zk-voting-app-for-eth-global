@@ -3,6 +3,10 @@ import type { AppProps } from 'next/app'
 import { Provider } from 'react-redux';
 import  store  from '../redux/store';
 import './reactCOIServiceWorker';
+import '../styles/globals.css'; // Add this line to import the global CSS file
+
+// Rest of the file remains the same
+
 
 export default function App({ Component, pageProps }: AppProps) {
 
