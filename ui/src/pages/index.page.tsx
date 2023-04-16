@@ -91,10 +91,10 @@ export default function Home() {
           </div>
           <div className={styles.create}>
             <Link href="/createvote">
-              <Button colorScheme="teal">投票作成</Button>
+              <Button colorScheme="teal">create</Button>
             </Link>
             <Link href="/voting">
-              <Button colorScheme="teal">投票</Button>
+              <Button colorScheme="teal">vote</Button>
             </Link>
           </div>
         </div>

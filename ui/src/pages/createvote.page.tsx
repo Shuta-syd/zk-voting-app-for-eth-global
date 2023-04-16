@@ -2,6 +2,7 @@ import { Button, ChakraProvider, Input, Link } from "@chakra-ui/react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addVote } from "../redux/store";
+import styles from '../styles/Home.module.css';
 
 const CreateVote = () => {
 	const [title, setTitle] = useState("");
@@ -50,11 +51,11 @@ const CreateVote = () => {
 
 	return (
 		<ChakraProvider>
-			<div>
-				<h1>投票作成</h1>
+      <div className={styles.multi}>
+				<h1>make</h1>
 				<form onSubmit={handleSubmit}>
 					<div>
-						<label htmlFor="voteTitle">投票タイトル</label>
+						<label htmlFor="voteTitle">title</label>
 						<Input
 							type="text"
 							id="voteTitle"
@@ -65,7 +66,7 @@ const CreateVote = () => {
 					</div>
 					{contents.map((content, index) => (
 						<div key={index}>
-							<label htmlFor={`voteContent${index}`}>投票内容</label>
+							<label htmlFor={`voteContent${index}`}>content</label>
 							<Input
 								type="text"
 								id={`voteContent${index}`}
@@ -73,14 +74,14 @@ const CreateVote = () => {
 								onChange={(event) => handleContentChange(event, index)}
 								required
 							/>
-							<Button onClick={() => handleContentDelete(index)}>削除</Button>
+							<Button onClick={() => handleContentDelete(index)}>delete</Button>
 						</div>
 					))}
 					<Button type="button" onClick={addContent}>
-						追加
+						add
 					</Button>
 					<div>
-						<label htmlFor="closingTime">締め切り時間</label>
+						<label htmlFor="closingTime">deadline</label>
 						<Input
 							type="datetime-local"
 							id="closingTime"
@@ -89,9 +90,9 @@ const CreateVote = () => {
 							required
 						/>
 					</div>
-					<Button type="submit">投票作成</Button>
+					<Button type="submit">make</Button>
 					<Link href="/">
-						<Button>戻る</Button>
+						<Button>back</Button>
 					</Link>
 				</form>
 			</div>
@@ -100,7 +101,3 @@ const CreateVote = () => {
 };
 
 export default CreateVote;
-
-
-
-

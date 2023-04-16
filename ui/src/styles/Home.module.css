@@ -6,6 +6,7 @@
   padding: 6rem;
   min-height: 100vh;
   background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  background-color: var(--background-color);
 }
 
 .description {
@@ -36,6 +37,11 @@
   border-radius: var(--border-radius);
 }
 
+.description, .head {
+  font-family: var(--font-heading);
+  color: var(--text-color);
+}
+
 .code {
   font-weight: 700;
   font-family: var(--font-mono);
@@ -46,13 +52,14 @@
 
 .head {
   color: #fff;
-  font-size: 2.5rem;
+  font-size: 3rem;
   font-weight: bold;
   text-align: center;
   text-shadow: 2px 2px rgba(0, 0, 0, 0.2);
   margin-bottom: 1.5rem;
   margin-right: 20%;
   margin-top: 10%;
+  margin: 0;
 }
 
 /* Other styles remain the same */
@@ -86,3 +93,17 @@
   color: #fff;
 }
 
+.container, .create {
+  gap: var(--spacing-large);
+}
+
+.multi {
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6rem;
+  min-height: 100vh;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  background-color: var(--background-color);
+
+}
